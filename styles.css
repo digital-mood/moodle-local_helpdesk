@@ -438,12 +438,12 @@
 .path-local-helpdesk .helpdesk-filters-form .area-finds {
   width: 100%;
   margin-bottom: 0 !important;
-  gap: 0;
+  gap: 0 !important;
 }
 .path-local-helpdesk .helpdesk-filters-form .area-finds--main {
   display: flex;
   flex-direction: column;
-  gap: 16px;
+  gap: 16px !important;
   width: 100%;
 }
 .path-local-helpdesk .helpdesk-filters-form .area-finds--search {
@@ -455,7 +455,7 @@
   flex-wrap: wrap !important;
   align-items: center !important;
   justify-content: flex-start !important;
-  gap: 16px;
+  gap: 16px !important;
   width: 100%;
 }
 .path-local-helpdesk .area-find--search {
@@ -543,23 +543,36 @@
   margin: 0 4px;
   position: relative;
 }
+.path-local-helpdesk .area-find--course {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  margin: 0 4px;
+  position: relative;
+}
+.path-local-helpdesk .area-find--user {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  margin: 0 4px;
+  position: relative;
+}
 .path-local-helpdesk {
   /* Fila de course/user */
-}
-.path-local-helpdesk .area-find--course,
-.path-local-helpdesk .area-find--user {
-  flex: 1 1 calc(50% - 8px);
-  min-width: 260px;
-}
-.path-local-helpdesk {
+  /*
+      .area-find--course,
+      .area-find--user {
+          flex: 1 1 calc(50% - 8px);
+          min-width: 220px;
+      }
+  */
   /* Fila submit */
 }
 .path-local-helpdesk .area-find--submit {
   flex: 1 1 100%;
   width: 100%;
   display: flex;
-  justify-content: flex-end;
-  align-items: flex-end;
+  align-items: flex-end !important;
   margin-top: 4px;
 }
 .path-local-helpdesk .area-find--submit input[type=submit] {
@@ -637,9 +650,11 @@
 }
 .path-local-helpdesk #chart-course-button-open,
 .path-local-helpdesk #chart-user-button-open {
+  display: flex !important;
+  flex-direction: column !important;
+  gap: 6px !important;
+  align-items: flex-start !important;
   width: 100%;
-  position: relative;
-  margin: 0;
 }
 .path-local-helpdesk #chart-course-button-open > .select,
 .path-local-helpdesk #chart-user-button-open > .select {
