@@ -64,59 +64,75 @@
 
 }}
 
-<form method="get">
-    <div class="area-finds mb-2">
-        <div class="area-find">
-            <label for="search">{{#str}}findticket, local_helpdesk{{/str}}: </label>
-            <input name="search" id="search" type="text"
-                   value="{{{search}}}"
-                   style="min-width: 380px;">
-        </div>
-    </div>
-    <div class="area-finds mb-2">
-        <div class="area-find">
-            <label for="find_status">{{#str}}ticketstatus, local_helpdesk{{/str}}: </label>
-            <select name="find_status" id="find_status">
-                <option value="{{empty}}">{{#str}}ticketstatusnotclosed, local_helpdesk{{/str}}</option>
-                {{#status_options}}
-                    <option value="{{key}}" {{selected}}>{{label}}</option>
-                {{/status_options}}
-            </select>
+<form method="get" class="helpdesk-filters-form">
+    <div class="area-finds area-finds--main">
+
+        <div class="area-finds area-finds--search mb-2">
+            <div class="area-find area-find--search">
+                <label for="search">{{#str}}findticket, local_helpdesk{{/str}}: </label>
+                <input
+                    name="search"
+                    id="search"
+                    type="text"
+                    value="{{{search}}}"
+                    placeholder="Search tickets, customers, or keywords...">
+            </div>
         </div>
 
-        {{#has_manage}}
-            <div class="area-find">
-                <label for="find_priority">{{#str}}ticketpriority, local_helpdesk{{/str}}: </label>
-                <select name="find_priority" id="find_priority">
-                    <option value="{{empty}}">..:: {{#str}}selectanoptions{{/str}} ::..</option>
-                    {{#priority_options}}
+        <div class="area-finds area-finds--filters mb-2">
+
+            <div class="area-find area-find--status">
+                <label for="find_status">{{#str}}ticketstatus, local_helpdesk{{/str}}: </label>
+                <select name="find_status" id="find_status">
+                    <option value="{{empty}}">{{#str}}ticketstatusnotclosed, local_helpdesk{{/str}}</option>
+                    {{#status_options}}
                         <option value="{{key}}" {{selected}}>{{label}}</option>
-                    {{/priority_options}}
+                    {{/status_options}}
                 </select>
             </div>
-        {{/has_manage}}
 
-        <div class="area-find">
-            <label for="find_category">{{#str}}ticketcategory, local_helpdesk{{/str}}: </label>
-            <select name="find_category" id="find_category">
-                <option value="{{empty}}">..:: {{#str}}selectanoptions{{/str}} ::..</option>
-                {{#category_options}}
-                    <option value="{{key}}" {{selected}}>{{label}}</option>
-                {{/category_options}}
-            </select>
-        </div>
-    </div>
-    <div class="area-finds mb-2">
-        <div class="area-find">
-            {{{find_course}}}
-        </div>
+            {{#has_manage}}
+                <div class="area-find area-find--priority">
+                    <label for="find_priority">{{#str}}ticketpriority, local_helpdesk{{/str}}: </label>
+                    <select name="find_priority" id="find_priority">
+                        <option value="{{empty}}">{{#str}}selectanoptions{{/str}}</option>
+                        {{#priority_options}}
+                            <option value="{{key}}" {{selected}}>{{label}}</option>
+                        {{/priority_options}}
+                    </select>
+                </div>
+            {{/has_manage}}
 
-        {{#has_manage}}
-            <div class="area-find">
-                {{{find_user}}}
+            <div class="area-find area-find--category">
+                <label for="find_category">{{#str}}ticketcategory, local_helpdesk{{/str}}: </label>
+                <select name="find_category" id="find_category">
+                    <option value="{{empty}}">{{#str}}selectanoptions{{/str}}</option>
+                    {{#category_options}}
+                        <option value="{{key}}" {{selected}}>{{label}}</option>
+                    {{/category_options}}
+                </select>
             </div>
-        {{/has_manage}}
-        <input type="submit" value="{{#str}}search{{/str}}">
+        </div>
+        <div class="area-finds area-finds--filters mb-2">
+
+            <div class="area-find area-find--course">
+                {{{find_course}}}
+            </div>
+
+            {{#has_manage}}
+                <div class="area-find area-find--user">
+                    {{{find_user}}}
+                </div>
+            {{/has_manage}}
+        </div>
+        <div class="area-finds area-finds--filters mb-2">
+
+            <div class="area-find area-find--submit">
+                <input type="submit" value="{{#str}}search{{/str}}">
+            </div>
+
+        </div>
+
     </div>
 </form>
 

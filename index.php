@@ -249,5 +249,6 @@ if ($hasticketmanage) {
 }
 echo $OUTPUT->render_from_template("local_helpdesk/index", $templatecontext);
 $PAGE->requires->js_call_amd("local_helpdesk/index", "init");
+$PAGE->requires->js_call_amd('local_helpdesk/search', 'init');
 
 echo $OUTPUT->footer();
