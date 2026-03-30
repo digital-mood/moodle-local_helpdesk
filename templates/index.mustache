@@ -65,7 +65,7 @@
 }}
 
 <form method="get" class="helpdesk-filters-form">
-    <div class="area-finds area-finds--main">
+    <div class="area-finds--main">
 
         <div class="area-finds area-finds--search mb-2">
             <div class="area-find area-find--search">
@@ -82,7 +82,7 @@
         <div class="area-finds area-finds--filters mb-2">
 
             <div class="area-find area-find--status">
-                <label for="find_status">{{#str}}ticketstatus, local_helpdesk{{/str}}: </label>
+                <label for="find_status">{{#str}}ticketstatus, local_helpdesk{{/str}}</label>
                 <select name="find_status" id="find_status">
                     <option value="{{empty}}">{{#str}}ticketstatusnotclosed, local_helpdesk{{/str}}</option>
                     {{#status_options}}
@@ -93,7 +93,7 @@
 
             {{#has_manage}}
                 <div class="area-find area-find--priority">
-                    <label for="find_priority">{{#str}}ticketpriority, local_helpdesk{{/str}}: </label>
+                    <label for="find_priority">{{#str}}ticketpriority, local_helpdesk{{/str}} </label>
                     <select name="find_priority" id="find_priority">
                         <option value="{{empty}}">{{#str}}selectanoptions{{/str}}</option>
                         {{#priority_options}}
@@ -104,7 +104,7 @@
             {{/has_manage}}
 
             <div class="area-find area-find--category">
-                <label for="find_category">{{#str}}ticketcategory, local_helpdesk{{/str}}: </label>
+                <label for="find_category">{{#str}}ticketcategory, local_helpdesk{{/str}} </label>
                 <select name="find_category" id="find_category">
                     <option value="{{empty}}">{{#str}}selectanoptions{{/str}}</option>
                     {{#category_options}}

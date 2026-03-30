@@ -440,24 +440,22 @@
   margin-bottom: 0 !important;
   gap: 0;
 }
-.path-local-helpdesk {
-  /* =========================
-     MAIN WRAPPER
-  ========================= */
-}
-.path-local-helpdesk .area-finds--main {
+.path-local-helpdesk .helpdesk-filters-form .area-finds--main {
   display: flex;
   flex-direction: column;
   gap: 16px;
   width: 100%;
 }
-.path-local-helpdesk {
-  /* =========================
-     SEARCH ROW
-  ========================= */
-}
-.path-local-helpdesk .area-finds--search {
+.path-local-helpdesk .helpdesk-filters-form .area-finds--search {
   display: flex;
+  width: 100%;
+}
+.path-local-helpdesk .helpdesk-filters-form .area-finds--filters {
+  display: flex !important;
+  flex-wrap: wrap !important;
+  align-items: center !important;
+  justify-content: flex-start !important;
+  gap: 16px;
   width: 100%;
 }
 .path-local-helpdesk .area-find--search {
@@ -514,22 +512,35 @@
      FILTER ROWS
   ========================= */
 }
-.path-local-helpdesk .area-finds--filters {
-  display: flex !important;
-  flex-wrap: wrap !important;
-  align-items: center !important;
-  justify-content: flex-start !important;
-  gap: 16px;
-  width: 100%;
-}
-.path-local-helpdesk .area-finds--filters .area-find {
+.path-local-helpdesk .area-find {
   display: flex;
   flex-direction: column;
   gap: 6px;
-  flex: 1 1 220px;
   min-width: 220px;
   max-width: 100%;
   margin: 0;
+  position: relative;
+  align-items: flex-start !important;
+}
+.path-local-helpdesk .area-find--status {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  margin: 0 4px;
+  position: relative;
+}
+.path-local-helpdesk .area-find--priority {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  margin: 0 4px;
+  position: relative;
+}
+.path-local-helpdesk .area-find--category {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  margin: 0 4px;
   position: relative;
 }
 .path-local-helpdesk {
@@ -579,11 +590,10 @@
 .path-local-helpdesk #chart-course-button-open > label,
 .path-local-helpdesk #chart-user-button-open > label {
   display: block;
-  margin: 0 0 6px;
   font-size: 12px;
   font-weight: 700;
   line-height: 1.2;
-  text-transform: uppercase;
+  text-transform: none;
   color: #4e5f73;
   letter-spacing: 0.02em;
 }
@@ -593,7 +603,7 @@
   ========================= */
 }
 .path-local-helpdesk .area-find select {
-  width: 100%;
+  width: 100% !important;
   height: 40px;
   padding: 0 40px 0 14px;
   border: 0;
