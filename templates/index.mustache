@@ -55,13 +55,11 @@
           "priority": "high",
           "priority_translated": "High",
           "category_translate": "Technical",
-          "createdat": "2025-02-25",
-          "user_picture": "john_doe.jpg"
+          "createdat": "2025-02-25"
         }
       ],
       "courseid": 123
     }
-
 }}
 
 <form method="get" class="helpdesk-filters-form">
@@ -123,73 +121,116 @@
                 </div>
             {{/has_manage}}
         </div>
-        <div class="area-finds area-finds--filters mb-2">
 
+        <div class="area-finds area-finds--filters mb-2">
             <div class="area-find area-find--submit">
                 <input type="submit" value="{{#str}}search{{/str}}">
             </div>
-
         </div>
 
     </div>
 </form>
 
-<table class="generaltable">
-    <thead>
-        <tr>
-            <th>&nbsp;</th>
-            <th>{{#str}}fullname{{/str}}</th>
-            <th>{{#str}}course{{/str}}</th>
-            <th>{{#str}}ticketsubject, local_helpdesk{{/str}}</th>
-            <th>{{#str}}ticketstatus, local_helpdesk{{/str}}</th>
-            <th>{{#str}}ticketpriority, local_helpdesk{{/str}}</th>
-            <th>{{#str}}ticketcategory, local_helpdesk{{/str}}</th>
-            <th>{{#str}}ticketcreatedat, local_helpdesk{{/str}}</th>
-            {{#has_manage}}
-                <th>&nbsp;</th>
-            {{/has_manage}}
-        </tr>
-    </thead>
-    <tbody>
+<div class="tickets-list">
+
+    <div class="tickets-list__head">
+        <div class="tickets-list__col tickets-list__col--user">{{#str}}fullname{{/str}}</div>
+        <div class="tickets-list__col tickets-list__col--course">{{#str}}course{{/str}}</div>
+        <div class="tickets-list__col tickets-list__col--subject">{{#str}}ticketsubject, local_helpdesk{{/str}}</div>
+        <div class="tickets-list__col tickets-list__col--status">{{#str}}ticketstatus, local_helpdesk{{/str}}</div>
+        <div class="tickets-list__col tickets-list__col--priority">{{#str}}ticketpriority, local_helpdesk{{/str}}</div>
+        <div class="tickets-list__col tickets-list__col--category">{{#str}}ticketcategory, local_helpdesk{{/str}}</div>
+        <div class="tickets-list__col tickets-list__col--date">{{#str}}ticketcreatedat, local_helpdesk{{/str}}</div>
+        {{#has_manage}}
+            <div class="tickets-list__col tickets-list__col--actions"></div>
+        {{/has_manage}}
+    </div>
+
+    <div class="tickets-list__body">
         {{#tickets}}
-            <tr onclick="location.href='ticket.php?id={{idkey}}'">
-                <td><img src="{{{user_picture}}}" alt="{{user_fullname}}" class="user_picture"></td>
-                <td>{{user_fullname}}</td>
-                <td>{{course_fullname}}</td>
-                <td>{{subject}}</td>
-                <td>
-                    <span class="badge status-{{status}}">{{status_translated}}</span>
-                </td>
-                <td>
-                    <span class="badge priority-{{priority}}">{{priority_translated}}</span>
-                </td>
-                <td>{{category_translate}}</td>
-                <td>{{createdat}}</td>
+            <article class="tickets-list__row" onclick="location.href='ticket.php?id={{idkey}}'">
+
+                <div class="tickets-list__col tickets-list__col--user">
+                    <div class="tickets-list__user">
+                        <img
+                            class="tickets-list__avatar"
+                            src="{{{user_picture}}}"
+                            alt="{{user_fullname}}"
+                        />
+                        <div class="tickets-list__user-meta">
+                            <span class="tickets-list__user-name">{{user_fullname}}</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="tickets-list__col tickets-list__col--course" data-label="{{#str}}course{{/str}}">
+                    <span class="tickets-list__label">{{#str}}course{{/str}}:</span>
+                    <span class="tickets-list__value">{{course_fullname}}</span>
+                </div>
+
+                <div class="tickets-list__col tickets-list__col--subject" data-label="{{#str}}ticketsubject, local_helpdesk{{/str}}">
+                    <span class="tickets-list__label">{{#str}}ticketsubject, local_helpdesk{{/str}}:</span>
+                    <span class="tickets-list__value">{{subject}}</span>
+                </div>
+
+                <div class="tickets-list__col tickets-list__col--status" data-label="{{#str}}ticketstatus, local_helpdesk{{/str}}">
+                    <span class="tickets-list__label">{{#str}}ticketstatus, local_helpdesk{{/str}}:</span>
+                    <span class="tickets-list__value">
+                        <span class="badge status-{{status}}">{{status_translated}}</span>
+                    </span>
+                </div>
+
+                <div class="tickets-list__col tickets-list__col--priority" data-label="{{#str}}ticketpriority, local_helpdesk{{/str}}">
+                    <span class="tickets-list__label">{{#str}}ticketpriority, local_helpdesk{{/str}}:</span>
+                    <span class="tickets-list__value">
+                        <span class="badge priority-{{priority}}">{{priority_translated}}</span>
+                    </span>
+                </div>
+
+                <div class="tickets-list__col tickets-list__col--category" data-label="{{#str}}ticketcategory, local_helpdesk{{/str}}">
+                    <span class="tickets-list__label">{{#str}}ticketcategory, local_helpdesk{{/str}}:</span>
+                    <span class="tickets-list__value">{{category_translate}}</span>
+                </div>
+
+                <div class="tickets-list__col tickets-list__col--date" data-label="{{#str}}ticketcreatedat, local_helpdesk{{/str}}">
+                    <span class="tickets-list__label">{{#str}}ticketcreatedat, local_helpdesk{{/str}}:</span>
+                    <span class="tickets-list__value">{{createdat}}</span>
+                </div>
+
                 {{#has_manage}}
-                    <td onclick="event.stopImmediatePropagation()">
+                    <div class="tickets-list__col tickets-list__col--actions" onclick="event.stopImmediatePropagation()">
                         <a href="?action=edit&amp;id={{idkey}}" class="badge badge-success">{{#str}}edit{{/str}}</a>
-                    </td>
+                    </div>
                 {{/has_manage}}
-            </tr>
+
+            </article>
         {{/tickets}}
-    </tbody>
-</table>
+
+        {{^tickets}}
+            <div class="tickets-list__empty">
+                {{#str}}noticketsfound, local_helpdesk{{/str}}
+            </div>
+        {{/tickets}}
+    </div>
+</div>
 
 <div class="control-buttons">
     <a href="?action=add&courseid={{courseid}}"
        class="btn btn-info text-nowrap">{{#str}}addticket, local_helpdesk{{/str}}</a>
 
     <div style="width: 100%"></div>
+
     {{#has_categorymanage}}
         <a href="categories.php"
            class="btn btn-success text-nowrap">{{#str}}categories, local_helpdesk{{/str}}</a>
     {{/has_categorymanage}}
+
     {{#has_siteconfig}}
         <a href="/admin/settings.php?section=local_helpdesk"
            target="_blank">
             <img src="/theme/image.php/boost/local_helpdesk/0/settings"
                  alt="settings"
-                 style="width: 36px;height: 36px;min-width: 36px;min-height: 36px">
+                 style="width: 36px; height: 36px; min-width: 36px; min-height: 36px;">
         </a>
     {{/has_siteconfig}}
 </div>

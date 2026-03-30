@@ -430,7 +430,7 @@
 ========================= */
 .path-local-helpdesk .helpdesk-filters-form {
   background: #eef2f6;
-  border-radius: 14px;
+  border-radius: 6px;
   padding: 20px;
   margin-bottom: 20px;
   /* Reset del legacy global */
@@ -493,7 +493,7 @@
   height: 48px;
   padding: 0 18px 0 46px;
   border: 0;
-  border-radius: 10px;
+  border-radius: 6px;
   background: #d7dee5;
   color: #4b5563;
   font-size: 15px;
@@ -805,6 +805,371 @@
   min-height: 450px !important;
 }
 
+.tickets-list {
+  width: 100%;
+  margin-bottom: 20px;
+  overflow: hidden;
+}
+.tickets-list * {
+  box-sizing: border-box;
+}
+.tickets-list__head, .tickets-list__row {
+  width: 100%;
+}
+.tickets-list__head {
+  display: flex;
+  align-items: center;
+  gap: 0;
+  background: #f7f8fa;
+  border: 1px solid #d9dee5;
+  border-bottom: 0;
+  border-radius: 8px 8px 0 0;
+  font-weight: 700;
+  color: #1f2937;
+  overflow: hidden;
+}
+.tickets-list__body {
+  display: flex;
+  flex-direction: column;
+}
+.tickets-list__row {
+  display: flex;
+  align-items: stretch;
+  gap: 0;
+  background: #ffffff;
+  border: 1px solid #d9dee5;
+  border-top: 0;
+  min-height: 74px;
+  transition: background 0.2s ease;
+  cursor: pointer;
+  overflow: hidden;
+}
+.tickets-list__row:hover {
+  background: #fcfcfd;
+}
+.tickets-list__row:last-child {
+  border-radius: 0 0 8px 8px;
+}
+.tickets-list__col {
+  display: flex;
+  align-items: center;
+  min-width: 0;
+  padding: 12px 12px;
+  color: #1f2937;
+  font-size: 13px;
+  line-height: 1.35;
+  word-break: normal;
+  overflow-wrap: break-word;
+}
+.tickets-list__col--user {
+  flex: 1.35 1 170px;
+  min-width: 170px;
+}
+.tickets-list__col--course {
+  flex: 0.85 1 110px;
+  min-width: 110px;
+}
+.tickets-list__col--subject {
+  flex: 1.55 1 190px;
+  min-width: 190px;
+}
+.tickets-list__col--status {
+  flex: 0.7 1 95px;
+  min-width: 95px;
+}
+.tickets-list__col--priority {
+  flex: 0.7 1 95px;
+  min-width: 95px;
+}
+.tickets-list__col--category {
+  flex: 1.05 1 140px;
+  min-width: 140px;
+}
+.tickets-list__col--date {
+  flex: 0.95 1 125px;
+  min-width: 125px;
+}
+.tickets-list__col--actions {
+  flex: 0 0 72px;
+  min-width: 72px;
+  justify-content: flex-end;
+  padding-right: 10px;
+}
+.tickets-list__head .tickets-list__col {
+  font-size: 12px;
+  font-weight: 700;
+  color: #111827;
+  padding-top: 12px;
+  padding-bottom: 12px;
+  white-space: nowrap;
+}
+.tickets-list__label {
+  display: none;
+  font-weight: 700;
+  color: #111827;
+  margin-right: 4px;
+}
+.tickets-list__value {
+  min-width: 0;
+  color: #4b5563;
+}
+.tickets-list__user {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  min-width: 0;
+  width: 100%;
+}
+.tickets-list__user-meta {
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+}
+.tickets-list__user-name {
+  display: block;
+  min-width: 0;
+  font-weight: 600;
+  font-size: 14px;
+  color: #111827;
+  line-height: 1.25;
+}
+.tickets-list__avatar {
+  width: 36px;
+  height: 36px;
+  border-radius: 999px;
+  object-fit: cover;
+  flex-shrink: 0;
+  background: #f1f3f5;
+  border: 1px solid #e5e7eb;
+}
+.tickets-list__col--course .tickets-list__value, .tickets-list__col--subject .tickets-list__value, .tickets-list__col--category .tickets-list__value, .tickets-list__col--date .tickets-list__value {
+  white-space: normal;
+}
+.tickets-list__col--course .tickets-list__value, .tickets-list__col--category .tickets-list__value, .tickets-list__col--date .tickets-list__value {
+  font-size: 13px;
+}
+.tickets-list__col--subject .tickets-list__value {
+  color: #374151;
+}
+.tickets-list__col--status, .tickets-list__col--priority, .tickets-list__col--actions {
+  white-space: nowrap;
+}
+.tickets-list__col--status .tickets-list__value, .tickets-list__col--priority .tickets-list__value {
+  display: inline-flex;
+  align-items: center;
+}
+.tickets-list__col--subject .tickets-list__value, .tickets-list__col--category .tickets-list__value {
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+.tickets-list__col--subject .tickets-list__value {
+  -webkit-line-clamp: 2;
+  line-clamp: 2;
+}
+.tickets-list__col--category .tickets-list__value {
+  -webkit-line-clamp: 2;
+  line-clamp: 2;
+}
+.tickets-list__empty {
+  padding: 18px 20px;
+  border: 1px solid #d9dee5;
+  border-radius: 8px;
+  background: #fff;
+  color: #6b7280;
+  font-size: 14px;
+}
+
+/* =========================
+   BADGES
+========================= */
+.badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 18px;
+  padding: 2px 8px;
+  border-radius: 4px;
+  font-size: 10px;
+  font-weight: 700;
+  line-height: 1;
+  text-decoration: none;
+  white-space: nowrap;
+}
+
+.badge.status-open {
+  background: #1d7df2;
+  color: #fff;
+}
+
+.badge.status-closed,
+.badge.status-completed {
+  background: #16a34a;
+  color: #fff;
+}
+
+.badge.status-pending {
+  background: #f59e0b;
+  color: #fff;
+}
+
+.badge.status-answered {
+  background: #06b6d4;
+  color: #fff;
+}
+
+.badge.priority-low {
+  background: #28a745;
+  color: #fff;
+}
+
+.badge.priority-medium {
+  background: #f59e0b;
+  color: #fff;
+}
+
+.badge.priority-high,
+.badge.priority-urgent {
+  background: #f97316;
+  color: #fff;
+}
+
+.badge-success {
+  background: #2e7d32;
+  color: #fff;
+  border-radius: 4px;
+  font-size: 10px;
+  font-weight: 700;
+  padding: 5px 10px;
+}
+.badge-success:hover {
+  background: #256728;
+  color: #fff;
+  text-decoration: none;
+}
+
+/* =========================
+   TABLET / CARD GRID
+========================= */
+@media (max-width: 1100px) {
+  .tickets-list {
+    overflow: visible;
+  }
+  .tickets-list__head {
+    display: none;
+  }
+  .tickets-list__body {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 16px;
+    align-items: start;
+  }
+  .tickets-list__row {
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    min-height: 100%;
+    border: 1px solid #d9dee5;
+    border-radius: 8px;
+    padding: 16px;
+    background: #ffffff;
+    overflow: visible;
+  }
+  .tickets-list__row:last-child {
+    border-radius: 8px;
+  }
+  .tickets-list__row:hover {
+    background: #ffffff;
+  }
+  .tickets-list__col {
+    width: 100%;
+    min-width: 0;
+    padding: 0;
+    margin-bottom: 10px;
+    display: block;
+    font-size: 13px;
+    line-height: 1.45;
+  }
+  .tickets-list__col--user, .tickets-list__col--course, .tickets-list__col--subject, .tickets-list__col--status, .tickets-list__col--priority, .tickets-list__col--category, .tickets-list__col--date, .tickets-list__col--actions {
+    flex: unset;
+    min-width: 0;
+  }
+  .tickets-list__col--user {
+    margin-bottom: 14px;
+  }
+  .tickets-list__col--subject {
+    min-height: 40px;
+  }
+  .tickets-list__col--category {
+    min-height: 20px;
+  }
+  .tickets-list__col--actions {
+    margin-top: auto;
+    margin-bottom: 0;
+    display: flex;
+    justify-content: flex-end;
+    padding-top: 12px;
+  }
+  .tickets-list__user {
+    align-items: center;
+    gap: 12px;
+  }
+  .tickets-list__avatar {
+    width: 40px;
+    height: 40px;
+  }
+  .tickets-list__user-name {
+    font-size: 18px;
+    font-weight: 700;
+    line-height: 1.2;
+  }
+  .tickets-list__label {
+    display: inline;
+    font-size: 13px;
+  }
+  .tickets-list__value {
+    display: inline;
+    font-size: 13px;
+    color: #4b5563;
+  }
+  .tickets-list__col--status .tickets-list__value, .tickets-list__col--priority .tickets-list__value {
+    display: inline-flex;
+    align-items: center;
+  }
+  .tickets-list__col--subject .tickets-list__value, .tickets-list__col--category .tickets-list__value {
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+  .tickets-list__col--subject .tickets-list__value {
+    -webkit-line-clamp: 2;
+    line-clamp: 2;
+  }
+  .tickets-list__col--category .tickets-list__value {
+    -webkit-line-clamp: 2;
+    line-clamp: 2;
+  }
+}
+/* =========================
+   MOBILE 1 COLUMN
+========================= */
+@media (max-width: 680px) {
+  .tickets-list__body {
+    grid-template-columns: 1fr;
+  }
+  .tickets-list__row {
+    padding: 14px;
+  }
+  .tickets-list__user-name {
+    font-size: 17px;
+  }
+  .tickets-list__col--subject {
+    min-height: unset;
+  }
+  .tickets-list__col--category {
+    min-height: unset;
+  }
+}
 .btn-chart {
   margin-right: 5px;
 }
