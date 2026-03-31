@@ -998,44 +998,44 @@
 }
 
 .badge.status-open {
-  background: #1d7df2;
+  background: #56a0fc !important;
   color: #fff;
 }
 
 .badge.status-closed,
 .badge.status-completed {
-  background: #16a34a;
+  background: #45ff89 !important;
   color: #fff;
 }
 
 .badge.status-pending {
-  background: #f59e0b;
+  background: #ffb93f !important;
   color: #fff;
 }
 
 .badge.status-answered {
-  background: #06b6d4;
+  background: #53def7;
   color: #fff;
 }
 
 .badge.priority-low {
-  background: #28a745;
+  background: #51e473 !important;
   color: #fff;
 }
 
 .badge.priority-medium {
-  background: #f59e0b;
+  background: #f59e0b !important;
   color: #fff;
 }
 
 .badge.priority-high,
 .badge.priority-urgent {
-  background: #f97316;
+  background: #ff9143 !important;
   color: #fff;
 }
 
 .badge-success {
-  background: #2e7d32;
+  background: #2e7d32 !important;
   color: #fff;
   border-radius: 4px;
   font-size: 10px;
