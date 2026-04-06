@@ -22,15 +22,19 @@
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
+require_once(__DIR__ . "/../../config.php");
+require_once(__DIR__ . "/lib.php");
+
 use local_helpdesk\form\ticket_controller;
 use local_helpdesk\model\category;
 use local_helpdesk\model\category_users;
 use local_helpdesk\model\ticket;
 
-require_once(__DIR__ . "/../../config.php");
-require_once(__DIR__ . "/lib.php");
-
 global $DB, $OUTPUT, $PAGE, $USER;
+
+/* =========================
+   PARAMS
+========================= */
 
 $action = optional_param("action", "", PARAM_ALPHA);
 $ticketid = optional_param("id", false, PARAM_INT);
@@ -42,6 +46,10 @@ $courseid = optional_param("courseid", false, PARAM_INT);
 $finduser = optional_param("find_user", false, PARAM_INT);
 $search = optional_param("search", "", PARAM_TEXT);
 
+/* =========================
+   CONTEXT
+========================= */
+
 if ($courseid) {
     $context = context_course::instance($courseid);
     require_login($courseid, false);
@@ -49,20 +57,22 @@ if ($courseid) {
     $context = context_system::instance();
     require_login(null, false);
 }
+
 $PAGE->set_context($context);
 $PAGE->set_url(new moodle_url("/local/helpdesk/index.php"));
 $PAGE->set_title(get_string("tickets", "local_helpdesk"));
 $PAGE->set_heading(get_string("tickets", "local_helpdesk"));
 
-$hasticketview = $hasticketmanage = has_capability("local/helpdesk:ticketmanage", $context);
+/* =========================
+   CAPABILITIES
+========================= */
+
+$hasticketmanage = has_capability("local/helpdesk:ticketmanage", $context);
+$hasticketview = $hasticketmanage || has_capability("local/helpdesk:view", $context);
 $hascategorymanage = has_capability("local/helpdesk:categorymanage", $context);
-if (!$hasticketview) {
-    $hasticketview = has_capability("local/helpdesk:view", $context);
-}
 
 require_capability("local/helpdesk:view", $context);
 
-// Add HelpDesk secondary nav.
 if ($hasticketmanage) {
     local_helpdesk_set_secondarynav();
 } else {
@@ -72,36 +82,31 @@ if ($hasticketmanage) {
 $PAGE->navbar->add(get_string("tickets", "local_helpdesk"),
     new moodle_url("/local/helpdesk/"));
 
-// Categories.
+/* =========================
+   CATEGORIES
+========================= */
+
 $categoryoptions = [];
-if ($hasticketmanage) {
-    $categorys = category::get_all(null, null, "name ASC");
-    /** @var category $category */
-    foreach ($categorys as $category) {
+$categorys = category::get_all(null, null, "name ASC");
 
-        $option = [
-            "key" => $category->get_id(),
-            "label" => $category->get_name(),
-            "selected" => $findcategory == $category->get_id() ? "selected" : "",
-        ];
+foreach ($categorys as $category) {
 
-        if ($hascategorymanage) {
+    $option = [
+        "key" => $category->get_id(),
+        "label" => $category->get_name(),
+        "selected" => $findcategory == $category->get_id() ? "selected" : "",
+    ];
+
+    if ($hasticketmanage) {
+        if ($hascategorymanage ||
+            category_users::get_all(null, [
+                "categoryid" => $category->get_id(),
+                "userid" => $USER->id
+            ])) {
             $categoryoptions[] = $option;
-        } else {
-            if (category_users::get_all(null, ["categoryid" => $category->get_id(), "userid" => $USER->id])) {
-                $categoryoptions[] = $option;
-            }
         }
-    }
-} else {
-    $categorys = category::get_all(null, null, "name ASC");
-    /** @var category $category */
-    foreach ($categorys as $category) {
-        $categoryoptions[] = [
-            "key" => $category->get_id(),
-            "label" => $category->get_name(),
-            "selected" => $findcategory == $category->get_id() ? "selected" : "",
-        ];
+    } else {
+        $categoryoptions[] = $option;
     }
 }
 
@@ -110,16 +115,27 @@ if (count($categoryoptions) == 0 && $hascategorymanage) {
         get_string("createcategoryfirst", "local_helpdesk"), null, "warning");
 }
 
+/* =========================
+   FILTER LABELS
+========================= */
+
 $coursefullname = get_string("findcourse", "local_helpdesk");
 if ($courseid) {
-    $course = $DB->get_record("course", ["id" => $courseid]);
-    $coursefullname = $course->fullname;
+    if ($course = $DB->get_record("course", ["id" => $courseid], "id, fullname")) {
+        $coursefullname = $course->fullname;
+    }
 }
+
 $userfullname = get_string("finduser", "local_helpdesk");
 if ($finduser) {
-    $user = $DB->get_record("user", ["id" => $finduser]);
-    $userfullname = fullname($user);
+    if ($user = $DB->get_record("user", ["id" => $finduser])) {
+        $userfullname = fullname($user);
+    }
 }
+
+/* =========================
+   TEMPLATE CONTEXT BASE
+========================= */
 
 $templatecontext = [
     "status_options" => ticket::get_status_options($findstatus, true),
@@ -128,27 +144,35 @@ $templatecontext = [
     "find_course" => \local_helpdesk\util\filter::create_filter_course($coursefullname, $courseid),
     "find_user" => $hasticketmanage ? \local_helpdesk\util\filter::create_filter_user($userfullname, $finduser) : "",
     "tickets" => [],
-
     "courseid" => $courseid,
-
     "search" => $search,
-
     "has_manage" => $hasticketmanage,
     "has_categorymanage" => $hascategorymanage,
     "has_siteconfig" => has_capability("moodle/site:config", $context),
 ];
 
+/* =========================
+   ACTIONS
+========================= */
+
 if ($action == "add") {
-    $controller = new ticket_controller();
-    $controller->insert_ticket();
+    (new ticket_controller())->insert_ticket();
+
 } else if ($action == "edit" && $ticketid && $hasticketmanage) {
-    $controller = new ticket_controller();
-    $controller->update_ticket($ticketid);
+    (new ticket_controller())->update_ticket($ticketid);
+
 } else {
+
+    /* =========================
+       FILTER BUILD
+    ========================= */
+
     $params = [];
+
     if ($findpriority) {
         $params["priority"] = $findpriority;
     }
+
     if ($findstatus) {
         if ($findstatus != "all") {
             $params["status"] = $findstatus;
@@ -156,9 +180,11 @@ if ($action == "add") {
     } else {
         $params[] = "status NOT IN('resolved','closed')";
     }
+
     if ($findcategory) {
         $params["categoryid"] = $findcategory;
     }
+
     if ($courseid) {
         $params["courseid"] = $courseid;
     }
@@ -168,6 +194,10 @@ if ($action == "add") {
     } else if ($finduser) {
         $params["userid"] = $finduser;
     }
+
+    /* =========================
+       ORDER
+    ========================= */
 
     $order = "
         CASE
@@ -186,8 +216,14 @@ if ($action == "add") {
         END,
         createdat ASC";
 
+    /* =========================
+       SEARCH
+    ========================= */
+
     if (isset($search[2])) {
+
         $wheres = [];
+
         foreach ($params as $key => $value) {
             if (is_int($key)) {
                 $wheres[] = $value;
@@ -195,30 +231,43 @@ if ($action == "add") {
                 $wheres[] = "{$key} = :{$key}";
             }
         }
-        if (isset($wheres[0])) {
-            $where = "WHERE " . implode(" AND ", $wheres) .
-                " AND (subject LIKE :search1 OR description LIKE :search2)";
-        } else {
-            $where = "WHERE subject LIKE :search1 OR description LIKE :search2";
-        }
+
+        $where = isset($wheres[0])
+            ? "WHERE " . implode(" AND ", $wheres) . " AND (subject LIKE :search1 OR description LIKE :search2)"
+            : "WHERE subject LIKE :search1 OR description LIKE :search2";
+
         $params["search1"] = "%{$search}%";
         $params["search2"] = "%{$search}%";
 
         $tickets = ticket::get_all($where, $params, $order);
+
     } else {
         $tickets = ticket::get_all(null, $params, $order);
     }
 
-    /** @var ticket $ticket */
+    /* =========================
+       🔥 OPTIMIZED DATA LOAD
+    ========================= */
+
+    $users = $DB->get_records("user", null, "", "id, firstname, lastname, picture, imagealt");
+    $courses = $DB->get_records("course", null, "", "id, fullname");
+
     foreach ($tickets as $ticket) {
 
-        $user = $DB->get_record("user", ["id" => $ticket->get_userid()]);
-        $course = $DB->get_record("course", ["id" => $ticket->get_courseid()], "id, fullname");
+        $userid = $ticket->get_userid();
+        $courseid = $ticket->get_courseid();
+
+        $user = $users[$userid] ?? null;
+
+        $coursefullname = "-";
+        if ($courseid && isset($courses[$courseid])) {
+            $coursefullname = $courses[$courseid]->fullname;
+        }
 
         $templatecontext["tickets"][] = [
-            "user_picture" => (new user_picture($user))->get_url($PAGE),
-            "user_fullname" => fullname($user),
-            "course_fullname" => $course ? $course->fullname : "",
+            "user_picture" => $user ? (new user_picture($user))->get_url($PAGE) : "",
+            "user_fullname" => $user ? fullname($user) : "-",
+            "course_fullname" => $coursefullname,
             "id" => $ticket->get_id(),
             "idkey" => $ticket->get_idkey(),
             "subject" => $ticket->get_subject(),
@@ -228,27 +277,32 @@ if ($action == "add") {
             "priority_translated" => $ticket->get_priority_translated(),
             "category" => $ticket->get_categoryid(),
             "category_translate" => $ticket->get_category()->get_name(),
-            "createdat" => userdate($ticket->get_createdat(), get_string("strftimedatetimeshort", "langconfig")),
+            "createdat" => userdate(
+                $ticket->get_createdat(),
+                get_string("strftimedatetimeshort", "langconfig")
+            ),
         ];
     }
 }
 
+/* =========================
+   OUTPUT
+========================= */
+
 echo $OUTPUT->header();
+
 if ($hasticketmanage) {
-    $templatecontexttop = [
-        "all_open_tickets" => $DB->get_field_select("local_helpdesk_ticket",
-            "COUNT(*)", "status NOT IN('closed','resolved')"),
-        "unanswered_tickets" => $DB->get_field_select("local_helpdesk_ticket",
-            "COUNT(*)", "status IN('open')"),
-        "completed_tickets" => $DB->get_field_select("local_helpdesk_ticket",
-            "COUNT(*)", "status IN('closed','resolved')"),
-        "urgent_tickets" => $DB->get_field_select("local_helpdesk_ticket",
-            "COUNT(*)", "status NOT IN('closed','resolved') AND priority IN('urgent','high')"),
-    ];
-    echo $OUTPUT->render_from_template("local_helpdesk/index-top", $templatecontexttop);
+    echo $OUTPUT->render_from_template("local_helpdesk/index-top", [
+        "all_open_tickets" => $DB->get_field_select("local_helpdesk_ticket", "COUNT(*)", "status NOT IN('closed','resolved')"),
+        "unanswered_tickets" => $DB->get_field_select("local_helpdesk_ticket", "COUNT(*)", "status IN('open')"),
+        "completed_tickets" => $DB->get_field_select("local_helpdesk_ticket", "COUNT(*)", "status IN('closed','resolved')"),
+        "urgent_tickets" => $DB->get_field_select("local_helpdesk_ticket", "COUNT(*)", "status NOT IN('closed','resolved') AND priority IN('urgent','high')"),
+    ]);
 }
+
 echo $OUTPUT->render_from_template("local_helpdesk/index", $templatecontext);
+
 $PAGE->requires->js_call_amd("local_helpdesk/index", "init");
-$PAGE->requires->js_call_amd('local_helpdesk/search', 'init');
+$PAGE->requires->js_call_amd("local_helpdesk/search", "init");
 
 echo $OUTPUT->footer();

@@ -27,3 +27,5 @@ This plugin is licensed under the [GNU GPL v3](https://www.gnu.org/licenses/gpl-
 
 ## Contact
 For more information, contact Eduardo Kraus via [Contact](https://eduardokraus.com/contato).
+
+SolaR@123*

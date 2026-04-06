@@ -158,14 +158,19 @@
                             alt="{{user_fullname}}"
                         />
                         <div class="tickets-list__user-meta">
-                            <span class="tickets-list__user-name">{{user_fullname}}</span>
+                            <span class="tickets-list__user-name">
+                                {{user_fullname}}
+                            </span>
                         </div>
                     </div>
                 </div>
 
                 <div class="tickets-list__col tickets-list__col--course" data-label="{{#str}}course{{/str}}">
                     <span class="tickets-list__label">{{#str}}course{{/str}}:</span>
-                    <span class="tickets-list__value">{{course_fullname}}</span>
+                    <span class="tickets-list__value">
+                        {{#course_fullname}}{{course_fullname}}{{/course_fullname}}
+                        {{^course_fullname}}-{{/course_fullname}}
+                    </span>
                 </div>
 
                 <div class="tickets-list__col tickets-list__col--subject" data-label="{{#str}}ticketsubject, local_helpdesk{{/str}}">
